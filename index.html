@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salla Countdown Timer Generator</title>
-    <!-- Use Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>مولد عداد تنازلي لمنصة سلة</title>
+    <!-- Use Google Fonts (Tajawal for Arabic) -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #10b981;
@@ -21,7 +21,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Tajawal', sans-serif;
         }
 
         body {
@@ -64,7 +64,7 @@
         h1 {
             font-size: 1.8rem;
             margin-bottom: 0.5rem;
-            font-weight: 700;
+            font-weight: 800;
             background: linear-gradient(135deg, #34d399, #3b82f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -74,7 +74,7 @@
             color: var(--text-muted);
             font-size: 0.95rem;
             margin-bottom: 2rem;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .form-group {
@@ -135,7 +135,7 @@
 
         .preview-label {
             font-size: 0.8rem;
-            text-transform: uppercase;
+            font-weight: 700;
             letter-spacing: 1px;
             color: var(--text-muted);
             margin-bottom: 1rem;
@@ -147,18 +147,18 @@
             border-radius: 8px;
             padding: 1.5rem;
             color: #1e293b;
-            text-align: left;
+            text-align: right;
         }
 
         .mock-title {
-            font-weight: 600;
+            font-weight: 700;
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
         }
 
         .mock-price {
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 800;
             color: #10b981;
             margin-bottom: 1rem;
         }
@@ -170,7 +170,7 @@
             border: 1px solid #eee;
             border-radius: 5px;
             text-align: center;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 1.1rem;
         }
 
@@ -182,7 +182,7 @@
         .code-panel h2 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         textarea {
@@ -199,6 +199,8 @@
             resize: none;
             outline: none;
             margin-bottom: 1rem;
+            direction: ltr;
+            text-align: left;
         }
 
         button {
@@ -208,7 +210,7 @@
             padding: 1rem;
             border-radius: 8px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
@@ -236,15 +238,17 @@
             padding: 1rem;
             font-size: 0.85rem;
             color: #bfdbfe;
+            line-height: 1.6;
         }
 
         .instructions ol {
-            margin-left: 1.5rem;
+            margin-right: 1.5rem;
             margin-top: 0.5rem;
+            padding: 0;
         }
 
         .instructions li {
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.4rem;
         }
 
         @media (max-width: 768px) {
@@ -259,26 +263,26 @@
     <div class="container">
         <!-- Settings Panel -->
         <div class="panel">
-            <h1>Salla Timer Dashboard</h1>
-            <p class="subtitle">Customize your countdown timer and generate the script for your Salla store.</p>
+            <h1>لوحة تحكم مؤقت سلة</h1>
+            <p class="subtitle">قم بتخصيص العداد التنازلي وانسخ الكود البرمجي لمتجرك في سلة.</p>
             
             <div class="form-group">
-                <label for="timerColor">Timer Text Color</label>
+                <label for="timerColor">لون نص العداد</label>
                 <input type="color" id="timerColor" value="#ff3b3b">
             </div>
 
             <div class="form-group">
-                <label for="resetHours">Reset Timer After (Hours)</label>
+                <label for="resetHours">إعادة ضبط العداد بعد (ساعات)</label>
                 <input type="number" id="resetHours" min="1" max="720" value="24">
             </div>
 
             <div class="preview-box">
-                <span class="preview-label">Live Preview</span>
+                <span class="preview-label">معاينة حية</span>
                 <div class="mock-product">
-                    <div class="mock-title">Premium Wireless Headphones</div>
-                    <div class="mock-price">299 SAR</div>
+                    <div class="mock-title">سماعات رأس لاسلكية فاخرة</div>
+                    <div class="mock-price">299 ر.س</div>
                     <div class="timer-preview" id="livePreviewWrapper" style="color: #ff3b3b;">
-                        ⏳ Offer ends in <span id="livePreviewTime">23:59:59</span>
+                        ⏳ ينتهي العرض خلال <span id="livePreviewTime" dir="ltr" style="display:inline-block">23:59:59</span>
                     </div>
                 </div>
             </div>
@@ -286,25 +290,26 @@
 
         <!-- Code Panel -->
         <div class="panel code-panel">
-            <h2>Generated Script</h2>
-            <p class="subtitle">Copy this script and paste it into your Salla Partner Dashboard.</p>
+            <h2>الكود البرمجي المولد</h2>
+            <p class="subtitle">انسخ هذا الكود وقم بلصقه في إعدادات متجرك على سلة.</p>
             
             <textarea id="generatedCode" readonly></textarea>
             
             <button id="copyBtn" onclick="copyCode()">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                Copy to Clipboard
+                نسخ الكود
             </button>
 
             <div class="instructions">
-                <strong>How to install on Salla:</strong>
+                <strong>طريقة التركيب في سلة:</strong>
                 <ol>
-                    <li>Go to Salla Partners Portal.</li>
-                    <li>Navigate to your App > <strong>App Scripts</strong> or <strong>Twilight App Settings</strong>.</li>
-                    <li>Create a new custom script.</li>
-                    <li>Set placement to <strong>Footer</strong> (or Before Body End).</li>
-                    <li>Set pages to <strong>Product Details Page</strong>.</li>
-                    <li>Paste the copied code and save!</li>
+                    <li>اذهب إلى إعدادات متجرك في سلة.</li>
+                    <li>انتقل إلى <strong>صانع الثيمات (Theme Maker)</strong> أو <strong>ثيم تويلايت > تخصيص</strong>.</li>
+                    <li>ابحث عن إعدادات إضافة <strong>"أكواد مخصصة"</strong> (Custom Scripts).</li>
+                    <li>قم بإنشاء كود مخصص جديد.</li>
+                    <li>اختر مكان إضافة الكود في <strong>تذييل الصفحة (Footer)</strong> أو قبل نهاية وسم <code>&lt;/body&gt;</code>.</li>
+                    <li>اختر تطبيق الكود على <strong>صفحة تفاصيل المنتج</strong> فقط.</li>
+                    <li>الصق الكود المنسوخ واضغط على حفظ!</li>
                 </ol>
             </div>
         </div>
@@ -347,8 +352,8 @@
         // Create UI
         const wrapper = document.createElement('div');
         wrapper.id = 'salla-custom-timer';
-        wrapper.style.cssText = 'margin-top: 15px; padding: 10px; background-color: rgba(0,0,0,0.03); border: 1px solid #eee; border-radius: 5px; text-align: center; font-weight: bold; font-size: 1.1rem; color: ' + config.color + ';';
-        wrapper.innerHTML = '⏳ Offer ends in <span id="salla-countdown-time"></span>';
+        wrapper.style.cssText = 'margin-top: 15px; padding: 10px; background-color: rgba(0,0,0,0.03); border: 1px solid #eee; border-radius: 5px; text-align: center; font-weight: bold; font-family: Tahoma, Tajawal, sans-serif; font-size: 1.1rem; color: ' + config.color + ';';
+        wrapper.innerHTML = '⏳ ينتهي العرض خلال <span id="salla-countdown-time" dir="ltr" style="display:inline-block"></span>';
         
         priceElement.parentNode.insertBefore(wrapper, priceElement.nextSibling);
 
@@ -402,7 +407,7 @@
             document.execCommand('copy');
             
             const originalText = copyBtn.innerHTML;
-            copyBtn.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Copied!';
+            copyBtn.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> تم النسخ!';
             copyBtn.style.background = '#059669';
             
             setTimeout(() => {
