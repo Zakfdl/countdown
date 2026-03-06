@@ -43,6 +43,11 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
+            direction: ltr; /* Force LTR on container to flip columns visually */
+        }
+        
+        .container > * {
+            direction: rtl; /* Restore RTL for the actual content inside panels */
         }
 
         .panel {
