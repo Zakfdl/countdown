@@ -517,6 +517,42 @@
                 }, 4000);
             }
         }
+        // Live Preview Timer Logic
+        let previewInterval;
+        
+        function updateLivePreviewTimer() {
+            if (previewInterval) clearInterval(previewInterval);
+            
+            const hoursSetting = parseInt(resetHoursInput.value) || 24;
+            const targetTime = new Date().getTime() + (hoursSetting * 60 * 60 * 1000);
+            const timeDisplay = document.getElementById('livePreviewTime');
+            
+            previewInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetTime - now;
+                
+                if (distance < 0) {
+                    timeDisplay.innerText = "00:00:00";
+                    clearInterval(previewInterval);
+                    return;
+                }
+                
+                const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+                timeDisplay.innerText = String(h).padStart(2, '0') + ":" + 
+                                        String(m).padStart(2, '0') + ":" + 
+                                        String(s).padStart(2, '0');
+            }, 1000);
+        }
+
+        // Initialize timer when page loads
+        updateLivePreviewTimer();
+        
+        // Restart timer if the user changes the "Reset Hours" setting
+        resetHoursInput.addEventListener('change', updateLivePreviewTimer);
+        
     </script>
 </body>
 </html>
