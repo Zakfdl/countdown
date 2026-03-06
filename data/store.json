@@ -1,43 +1,11 @@
 {
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
   "merchants": {
     "demo-merchant": {
-      "id": "demo-merchant",
-      "locale": "ar",
-      "timezone": "Asia/Riyadh",
-      "token": null,
-      "shopDomain": null,
-      "createdAt": "2026-03-06T18:40:58.128Z",
       "settings": {
-        "analyticsHookUrl": "",
-        "defaultText": {
-          "ar": "ينتهي العرض خلال",
-          "en": ""
-        },
-        "defaultExpiredText": {
-          "ar": "انتهى العرض",
-          "en": ""
-        },
-        "defaultCtaText": {
-          "ar": "تسوق الآن",
-          "en": ""
-        }
+        "defaultLocale": "ar",
+        "timezone": "Asia/Riyadh"
       },
       "campaigns": []
     }
   }
 }
-=======
-  "merchants": {}
-}
->>>>>>> theirs
-=======
-  "merchants": {}
-}
->>>>>>> theirs
-=======
-  "merchants": {}
-}
->>>>>>> theirs

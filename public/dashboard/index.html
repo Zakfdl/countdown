@@ -7,110 +7,168 @@
   <link rel="stylesheet" href="/dashboard/assets/styles.css" />
 </head>
 <body>
-  <header>
+  <header class="top">
     <h1>Countdown Growth لسلة</h1>
-    <p>أنشئ حملات عدّ تنازلي ترفع التحويل — العربية افتراضيًا والإنجليزية اختيارية.</p>
+    <p>أنشئ عدادك في دقائق — إعداد بسيط ومعاينة فورية.</p>
   </header>
 
-  <main>
-    <section class="card">
-      <h2>إعدادات التاجر</h2>
-      <form id="merchantForm" class="grid two">
-        <label>لغة المتجر الأساسية
-          <select name="locale">
-            <option value="ar">العربية (افتراضي)</option>
-            <option value="en">English</option>
-          </select>
-        </label>
-        <label>المنطقة الزمنية
-          <input name="timezone" value="Asia/Riyadh" />
-        </label>
-        <label>رابط Webhook للتحليلات (اختياري)
-          <input name="analyticsHookUrl" placeholder="https://example.com/events" />
-        </label>
-        <button type="submit">حفظ إعدادات التاجر</button>
-      </form>
-    </section>
+  <main class="layout">
+    <section class="panel settings-panel">
+      <div class="section-title">
+        <h2>ابدأ بقالب جاهز</h2>
+        <p>اختر قالبًا وسيتم تعبئة الحقول تلقائيًا.</p>
+      </div>
+      <div id="presetGrid" class="preset-grid">
+        <button type="button" class="preset-btn" data-preset="ramadan">رمضان</button>
+        <button type="button" class="preset-btn" data-preset="white_friday">وايت فرايدي</button>
+        <button type="button" class="preset-btn" data-preset="product_launch">إطلاق منتج</button>
+        <button type="button" class="preset-btn" data-preset="flash_sale">Flash Sale</button>
+        <button type="button" class="preset-btn" data-preset="top_bar">Top Announcement Bar</button>
+      </div>
 
-    <section class="card">
-      <h2>إنشاء / تعديل حملة</h2>
-      <form id="campaignForm" class="grid two">
-        <input type="hidden" name="id" />
-        <label>اسم الحملة<input name="name" required placeholder="مثال: عرض رمضان" /></label>
-        <label>قالب الحملة
-          <select name="template">
-            <option value="custom">مخصص</option>
-            <option value="ramadan">رمضان</option>
-            <option value="eid">العيد</option>
-            <option value="white_friday">الوايت فرايدي</option>
-            <option value="product_launch">إطلاق منتج</option>
-            <option value="clearance">تصفية مخزون</option>
-          </select>
-        </label>
-        <label>نمط الظهور
-          <select name="layout">
-            <option value="top_bar">شريط علوي ثابت</option>
+      <form id="simpleForm" class="stack">
+        <section class="group">
+          <h3>ماذا سيظهر للعميل؟</h3>
+          <label>رسالة العد التنازلي (عربي)
+            <input name="titleAr" value="ينتهي العرض خلال" required />
+          </label>
+          <label>نص الزر (عربي)
+            <input name="ctaAr" value="تسوق الآن" required />
+          </label>
+          <label>رابط الزر
+            <input name="ctaUrl" value="/collections/all" required />
+          </label>
+        </section>
+
+        <section class="group">
+          <h3>متى ينتهي العرض؟</h3>
+          <label>اختر طريقة التوقيت
+            <select name="timerType" id="timerType">
+              <option value="hours">مدة بالساعات</option>
+              <option value="fixed">تاريخ ووقت محدد</option>
+            </select>
+          </label>
+          <label id="hoursField">عدد الساعات
+            <input type="number" name="durationHours" min="1" value="24" />
+          </label>
+          <label id="dateField" class="hidden">تاريخ الانتهاء
+            <input type="datetime-local" name="endAt" />
+          </label>
+        </section>
+
+        <section class="group">
+          <h3>أين تريد أن يظهر العداد؟</h3>
+          <select name="layout" id="layoutSelect">
+            <option value="top_bar">شريط أعلى المتجر</option>
             <option value="product_inline">داخل صفحة المنتج</option>
-            <option value="homepage_banner">بانر الصفحة الرئيسية</option>
-            <option value="announcement">شريط إعلان</option>
+            <option value="announcement">داخل بطاقة منتج / الصفحة الرئيسية</option>
           </select>
-        </label>
-        <label>نوع المؤقت
-          <select name="timerMode">
-            <option value="fixed">تاريخ ثابت</option>
-            <option value="evergreen">متجدد</option>
-          </select>
-        </label>
-        <label>التكرار
-          <select name="recurrence">
-            <option value="none">بدون تكرار</option>
-            <option value="daily">يومي</option>
-            <option value="weekly">أسبوعي</option>
-            <option value="monthly">شهري</option>
-          </select>
-        </label>
-        <label>المدة (بالساعات)<input type="number" name="durationHours" value="24" min="1" /></label>
-        <label>بداية الحملة<input name="startAt" type="datetime-local" /></label>
-        <label>نهاية الحملة<input name="endAt" type="datetime-local" /></label>
+        </section>
 
-        <label>عنوان الحملة (عربي)<input name="titleAr" value="ينتهي العرض خلال" /></label>
-        <label>[اختياري] English title<input name="titleEn" placeholder="Offer ends in" /></label>
+        <section class="group">
+          <h3>مظهر العداد</h3>
+          <label>لون الخلفية
+            <input type="color" name="bgColor" value="#0f172a" />
+          </label>
+          <label>لون النص
+            <input type="color" name="textColor" value="#ffffff" />
+          </label>
+          <label>لون الزر
+            <input type="color" name="accentColor" value="#f43f5e" />
+          </label>
+        </section>
 
-        <label>رسالة الاستعجال (عربي)<input name="urgencyAr" value="الكمية محدودة" /></label>
-        <label>[اختياري] English urgency message<input name="urgencyEn" placeholder="Low stock available" /></label>
+        <details class="advanced">
+          <summary>خيارات متقدمة</summary>
+          <div class="advanced-content">
+            <label class="toggle-row">
+              <input type="checkbox" id="enableEnglish" />
+              إضافة نسخة إنجليزية (اختياري)
+            </label>
 
-        <label>نص الزر (عربي)<input name="ctaAr" value="تسوق الآن" /></label>
-        <label>[اختياري] English button text<input name="ctaEn" placeholder="Shop now" /></label>
+            <div id="englishFields" class="english-fields hidden">
+              <label>رسالة العد (English)
+                <input name="titleEn" placeholder="Offer ends in" />
+              </label>
+              <label>نص الزر (English)
+                <input name="ctaEn" placeholder="Shop now" />
+              </label>
+              <label>رسالة الانتهاء (English)
+                <input name="expiredEn" placeholder="Offer ended" />
+              </label>
+            </div>
 
-        <label>رابط الزر<input name="ctaUrl" value="/collections/all" /></label>
+            <label>رسالة انتهاء العرض (عربي)
+              <input name="expiredAr" value="انتهى العرض" />
+            </label>
+            <label>بداية الجدولة (اختياري)
+              <input name="startAt" type="datetime-local" />
+            </label>
+            <label>التكرار
+              <select name="recurrence">
+                <option value="none">بدون تكرار</option>
+                <option value="daily">يومي</option>
+                <option value="weekly">أسبوعي</option>
+                <option value="monthly">شهري</option>
+              </select>
+            </label>
+            <label>الاستهداف (اختياري)
+              <input name="pages" value="all" placeholder="all,home,product" />
+            </label>
+            <label>Webhook للتحليلات (اختياري)
+              <input name="analyticsHookUrl" placeholder="https://example.com/events" />
+            </label>
+            <label>خط مخصص (اختياري)
+              <input name="fontFamily" value="Tajawal, sans-serif" />
+            </label>
+          </div>
+        </details>
 
-        <label>رسالة انتهاء العرض (عربي)<input name="expiredAr" value="انتهى العرض" /></label>
-        <label>[اختياري] English expired message<input name="expiredEn" placeholder="Offer ended" /></label>
-
-        <label>لون النص<input type="color" name="textColor" value="#ffffff" /></label>
-        <label>لون الخلفية<input type="color" name="bgColor" value="#0f172a" /></label>
-        <label>لون التمييز<input type="color" name="accentColor" value="#f43f5e" /></label>
-        <label>الخط<input name="fontFamily" value="Tajawal, sans-serif" /></label>
-
-        <label>صفحات العرض (csv: all,home,product,collection)<input name="pages" value="all" /></label>
-        <label>معرّفات المنتجات (csv)<input name="productIds" /></label>
-        <label>معرّفات الأقسام (csv)<input name="collectionIds" /></label>
-
-        <label>سلوك الانتهاء
-          <select name="expiryBehavior">
-            <option value="hide">إخفاء المؤقت</option>
-            <option value="show_message">إظهار رسالة الانتهاء</option>
-            <option value="restart">إعادة التشغيل تلقائيًا</option>
-          </select>
-        </label>
-        <label><input type="checkbox" name="enabled" checked /> الحملة مفعلة</label>
-        <button type="submit">حفظ الحملة</button>
+        <div class="actions">
+          <button type="button" id="saveBtn" class="btn secondary">حفظ</button>
+          <button type="submit" id="publishBtn" class="btn primary">نشر في سلة</button>
+        </div>
       </form>
     </section>
 
-    <section class="card">
-      <h2>الحملات</h2>
-      <div id="campaignList"></div>
+    <section class="panel preview-panel">
+      <div class="section-title">
+        <h2>المعاينة المباشرة</h2>
+        <p>أي تغيير في الحقول يظهر فورًا هنا.</p>
+      </div>
+
+      <div class="preview-toolbar">
+        <div class="switch-group" id="deviceSwitch">
+          <button type="button" data-device="desktop" class="active">Desktop</button>
+          <button type="button" data-device="mobile">Mobile</button>
+        </div>
+        <div class="switch-group" id="placementSwitch">
+          <button type="button" data-placement="top" class="active">Top bar</button>
+          <button type="button" data-placement="product">Product page</button>
+          <button type="button" data-placement="card">Product card</button>
+        </div>
+        <div class="switch-group" id="languageSwitch">
+          <button type="button" data-language="ar" class="active">العربية</button>
+          <button type="button" data-language="en">English</button>
+        </div>
+      </div>
+
+      <div id="previewFrame" class="preview-frame desktop">
+        <div class="store-shell">
+          <div class="store-header"></div>
+          <div id="previewTop" class="placement top active"></div>
+          <div class="store-content">
+            <div id="previewProduct" class="placement product">
+              <h4>صفحة منتج</h4>
+              <div class="product-box">سماعات احترافية · 299 ر.س</div>
+            </div>
+            <div id="previewCard" class="placement card">
+              <h4>بطاقة منتج</h4>
+              <div class="product-box">منتج سريع البيع · 149 ر.س</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
