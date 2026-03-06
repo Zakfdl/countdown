@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salla Countdown Timer Generator</title>
+    <!-- Use Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --bg-dark: #0f172a;
+            --bg-panel: rgba(30, 41, 59, 0.7);
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.2) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.2) 0px, transparent 50%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .panel {
+            background: var(--bg-panel);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #34d399, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 100%;
+            height: 50px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: none;
+        }
+        
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        
+        input[type="color"]::-webkit-color-swatch {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--primary);
+        }
+
+        .preview-box {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .preview-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .mock-product {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: #1e293b;
+            text-align: left;
+        }
+
+        .mock-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mock-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .timer-preview {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: rgba(0,0,0,0.03);
+            border: 1px solid #eee;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .code-panel {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .code-panel h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        textarea {
+            flex-grow: 1;
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #a7f3d0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .instructions {
+            margin-top: 1.5rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.85rem;
+            color: #bfdbfe;
+        }
+
+        .instructions ol {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .instructions li {
+            margin-bottom: 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Settings Panel -->
+        <div class="panel">
+            <h1>Salla Timer Dashboard</h1>
+            <p class="subtitle">Customize your countdown timer and generate the script for your Salla store.</p>
+            
+            <div class="form-group">
+                <label for="timerColor">Timer Text Color</label>
+                <input type="color" id="timerColor" value="#ff3b3b">
+            </div>
+
+            <div class="form-group">
+                <label for="resetHours">Reset Timer After (Hours)</label>
+                <input type="number" id="resetHours" min="1" max="720" value="24">
+            </div>
+
+            <div class="preview-box">
+                <span class="preview-label">Live Preview</span>
+                <div class="mock-product">
+                    <div class="mock-title">Premium Wireless Headphones</div>
+                    <div class="mock-price">299 SAR</div>
+                    <div class="timer-preview" id="livePreviewWrapper" style="color: #ff3b3b;">
+                        ⏳ Offer ends in <span id="livePreviewTime">23:59:59</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Panel -->
+        <div class="panel code-panel">
+            <h2>Generated Script</h2>
+            <p class="subtitle">Copy this script and paste it into your Salla Partner Dashboard.</p>
+            
+            <textarea id="generatedCode" readonly></textarea>
+            
+            <button id="copyBtn" onclick="copyCode()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                Copy to Clipboard
+            </button>
+
+            <div class="instructions">
+                <strong>How to install on Salla:</strong>
+                <ol>
+                    <li>Go to Salla Partners Portal.</li>
+                    <li>Navigate to your App > <strong>App Scripts</strong> or <strong>Twilight App Settings</strong>.</li>
+                    <li>Create a new custom script.</li>
+                    <li>Set placement to <strong>Footer</strong> (or Before Body End).</li>
+                    <li>Set pages to <strong>Product Details Page</strong>.</li>
+                    <li>Paste the copied code and save!</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Real-time preview update
+        const timerColorInput = document.getElementById('timerColor');
+        const resetHoursInput = document.getElementById('resetHours');
+        const livePreviewWrapper = document.getElementById('livePreviewWrapper');
+        const textarea = document.getElementById('generatedCode');
+        const copyBtn = document.getElementById('copyBtn');
+
+        function generateScript() {
+            const color = timerColorInput.value;
+            const hours = resetHoursInput.value;
+            
+            // Update preview
+            livePreviewWrapper.style.color = color;
+
+            const scriptTemplate = `<script>
+/**
+ * Salla Countdown Timer App
+ * Injects a countdown below the product price.
+ */
+(function() {
+    const config = {
+        color: "${color}",
+        resetHours: ${hours}
+    };
+
+    function initTimer() {
+        // Find price element (works with Salla Twilight and standard themes)
+        const priceElement = document.querySelector('salla-pricing') || 
+                             document.querySelector('.product-price') || 
+                             document.querySelector('.price-wrapper');
+        
+        if (!priceElement || document.getElementById('salla-custom-timer')) return;
+
+        // Create UI
+        const wrapper = document.createElement('div');
+        wrapper.id = 'salla-custom-timer';
+        wrapper.style.cssText = 'margin-top: 15px; padding: 10px; background-color: rgba(0,0,0,0.03); border: 1px solid #eee; border-radius: 5px; text-align: center; font-weight: bold; font-size: 1.1rem; color: ' + config.color + ';';
+        wrapper.innerHTML = '⏳ Offer ends in <span id="salla-countdown-time"></span>';
+        
+        priceElement.parentNode.insertBefore(wrapper, priceElement.nextSibling);
+
+        let endTime = localStorage.getItem('salla_countdown_end');
+        if (!endTime || new Date().getTime() > parseInt(endTime)) {
+            endTime = new Date().getTime() + (config.resetHours * 60 * 60 * 1000);
+            localStorage.setItem('salla_countdown_end', endTime);
+        }
+
+        const display = document.getElementById('salla-countdown-time');
+
+        // Update loop
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = parseInt(endTime) - now;
+
+            if (distance < 0) {
+                // Time's up, reset automatically based on the merchant's preference
+                endTime = new Date().getTime() + (config.resetHours * 60 * 60 * 1000);
+                localStorage.setItem('salla_countdown_end', endTime);
+                return;
+            }
+
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+            display.innerText = String(h).padStart(2, '0') + ":" + String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
+        }, 1000);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTimer);
+    } else {
+        initTimer();
+    }
+    
+    // Twilight SPA navigation support
+    document.addEventListener('salla-page-view', initTimer);
+})();
+<\/script>`;
+
+            textarea.value = scriptTemplate;
+        }
+
+        timerColorInput.addEventListener('input', generateScript);
+        resetHoursInput.addEventListener('input', generateScript);
+
+        function copyCode() {
+            textarea.select();
+            document.execCommand('copy');
+            
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Copied!';
+            copyBtn.style.background = '#059669';
+            
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+                copyBtn.style.background = '';
+            }, 2000);
+        }
+
+        // Initial generation
+        generateScript();
+    </script>
+</body>
+</html>
