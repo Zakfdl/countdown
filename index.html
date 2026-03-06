@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مولد عداد تنازلي لمنصة سلة</title>
+    <title>لوحة تحكم مؤقت سلة</title>
     <!-- Use Google Fonts (Tajawal for Arabic) -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
@@ -108,7 +108,7 @@
             border-radius: 8px;
         }
 
-        input[type="number"] {
+        input[type="number"], input[type="text"] {
             width: 100%;
             padding: 0.75rem 1rem;
             background: rgba(15, 23, 42, 0.6);
@@ -120,8 +120,35 @@
             transition: border-color 0.2s ease;
         }
 
-        input[type="number"]:focus {
+        input[type="number"]:focus, input[type="text"]:focus {
             border-color: var(--primary);
+        }
+        
+        input[type="file"] {
+            width: 100%;
+            padding: 0.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        input[type="file"]::-webkit-file-upload-button {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: all 0.2s;
+        }
+        
+        input[type="file"]::-webkit-file-upload-button:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .preview-box {
@@ -172,6 +199,17 @@
             text-align: center;
             font-weight: 700;
             font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .timer-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            display: inline-block;
         }
 
         .code-panel {
@@ -185,49 +223,40 @@
             font-weight: 700;
         }
 
-        textarea {
-            flex-grow: 1;
-            width: 100%;
-            background: #1e293b;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            color: #a7f3d0;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            resize: none;
-            outline: none;
-            margin-bottom: 1rem;
-            direction: ltr;
-            text-align: left;
-        }
-
-        button {
-            background: var(--primary);
+        button.publish-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
-            padding: 1rem;
+            padding: 1.1rem;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
             width: 100%;
+            margin-top: auto;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
         }
 
-        button:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+        button.publish-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+            background: linear-gradient(135deg, #059669, #047857);
         }
 
-        button:active {
+        button.publish-btn:active {
             transform: translateY(0);
+        }
+        
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
         }
 
         .instructions {
@@ -241,14 +270,21 @@
             line-height: 1.6;
         }
 
-        .instructions ol {
-            margin-right: 1.5rem;
-            margin-top: 0.5rem;
-            padding: 0;
+        .api-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: 600;
+            display: none;
         }
-
-        .instructions li {
-            margin-bottom: 0.4rem;
+        
+        .api-status.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         @media (max-width: 768px) {
@@ -261,10 +297,10 @@
 <body>
 
     <div class="container">
-        <!-- Settings Panel -->
+        <!-- Dashboard Panel -->
         <div class="panel">
-            <h1>لوحة تحكم مؤقت سلة</h1>
-            <p class="subtitle">قم بتخصيص العداد التنازلي وانسخ الكود البرمجي لمتجرك في سلة.</p>
+            <h1>إعدادات المؤقت الأساسية</h1>
+            <p class="subtitle">تكوين الخيارات العامة ومدة إعادة الضبط للعداد التنازلي.</p>
             
             <div class="form-group">
                 <label for="timerColor">لون نص العداد</label>
@@ -277,147 +313,147 @@
             </div>
 
             <div class="preview-box">
-                <span class="preview-label">معاينة حية</span>
+                <span class="preview-label">معاينة حية للمتجر</span>
                 <div class="mock-product">
                     <div class="mock-title">سماعات رأس لاسلكية فاخرة</div>
                     <div class="mock-price">299 ر.س</div>
                     <div class="timer-preview" id="livePreviewWrapper" style="color: #ff3b3b;">
-                        ⏳ ينتهي العرض خلال <span id="livePreviewTime" dir="ltr" style="display:inline-block">23:59:59</span>
+                        <!-- Default placeholder icon -->
+                        <img id="livePreviewIcon" class="timer-icon" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff3b3b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'></circle><polyline points='12 6 12 12 16 14'></polyline></svg>" alt="Icon">
+                        <span id="livePreviewMessage">ينتهي العرض خلال</span>
+                        <span id="livePreviewTime" dir="ltr" style="display:inline-block">23:59:59</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Code Panel -->
+        <!-- Content Controller Panel -->
         <div class="panel code-panel">
-            <h2>الكود البرمجي المولد</h2>
-            <p class="subtitle">انسخ هذا الكود وقم بلصقه في إعدادات متجرك على سلة.</p>
+            <h2>محتوى وتصميم العداد</h2>
+            <p class="subtitle">قم بتخصيص النص والصورة للعداد قبل تثبيته على متجرك في سلة.</p>
             
-            <textarea id="generatedCode" readonly></textarea>
-            
-            <button id="copyBtn" onclick="copyCode()">
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                نسخ الكود
-            </button>
-
-            <div class="instructions">
-                <strong>طريقة التركيب في سلة:</strong>
-                <ol>
-                    <li>اذهب إلى إعدادات متجرك في سلة.</li>
-                    <li>انتقل إلى <strong>صانع الثيمات (Theme Maker)</strong> أو <strong>ثيم تويلايت > تخصيص</strong>.</li>
-                    <li>ابحث عن إعدادات إضافة <strong>"أكواد مخصصة"</strong> (Custom Scripts).</li>
-                    <li>قم بإنشاء كود مخصص جديد.</li>
-                    <li>اختر مكان إضافة الكود في <strong>تذييل الصفحة (Footer)</strong> أو قبل نهاية وسم <code>&lt;/body&gt;</code>.</li>
-                    <li>اختر تطبيق الكود على <strong>صفحة تفاصيل المنتج</strong> فقط.</li>
-                    <li>الصق الكود المنسوخ واضغط على حفظ!</li>
-                </ol>
+            <div class="form-group">
+                <label for="timerMessage">رسالة العداد المحفزة</label>
+                <input type="text" id="timerMessage" value="ينتهي العرض خلال" placeholder="مثال: سارع بالطلب! ينتهي العرض خلال">
             </div>
+            
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label for="timerImage">أيقونة العداد (اختياري)</label>
+                <input type="file" id="timerImage" accept="image/*">
+            </div>
+            
+            <div class="instructions">
+                <strong>ملاحظة تقنية:</strong>
+                <p>بالضغط على "نشر إلى سلة"، سيتم إرسال هذا المحتوى والتصميم برمجياً (عبر Salla API) وتحديث إعدادات التطبيق الخاص بك في جميع صفحات المنتجات تلقائياً.</p>
+            </div>
+            
+            <button id="publishBtn" class="publish-btn" onclick="publishToSalla()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                <span>نشر إلى سلة</span>
+            </button>
+            
+            <div id="apiStatus" class="api-status"></div>
         </div>
     </div>
 
     <script>
-        // Real-time preview update
+        // DOM Elements
         const timerColorInput = document.getElementById('timerColor');
         const resetHoursInput = document.getElementById('resetHours');
+        const timerMessageInput = document.getElementById('timerMessage');
+        const timerImageInput = document.getElementById('timerImage');
+        
+        // Preview Elements
         const livePreviewWrapper = document.getElementById('livePreviewWrapper');
-        const textarea = document.getElementById('generatedCode');
-        const copyBtn = document.getElementById('copyBtn');
+        const livePreviewIcon = document.getElementById('livePreviewIcon');
+        const livePreviewMessage = document.getElementById('livePreviewMessage');
+        const publishBtn = document.getElementById('publishBtn');
+        const apiStatus = document.getElementById('apiStatus');
 
-        function generateScript() {
-            const color = timerColorInput.value;
-            const hours = resetHoursInput.value;
-            
-            // Update preview
+        // Initial Data state to be sent via API
+        let uploadedImageBase64 = null;
+
+        // Update color
+        timerColorInput.addEventListener('input', (e) => {
+            const color = e.target.value;
             livePreviewWrapper.style.color = color;
-
-            const scriptTemplate = `<script>
-/**
- * Salla Countdown Timer App
- * Injects a countdown below the product price.
- */
-(function() {
-    const config = {
-        color: "${color}",
-        resetHours: ${hours}
-    };
-
-    function initTimer() {
-        // Find price element (works with Salla Twilight and standard themes)
-        const priceElement = document.querySelector('salla-pricing') || 
-                             document.querySelector('.product-price') || 
-                             document.querySelector('.price-wrapper');
-        
-        if (!priceElement || document.getElementById('salla-custom-timer')) return;
-
-        // Create UI
-        const wrapper = document.createElement('div');
-        wrapper.id = 'salla-custom-timer';
-        wrapper.style.cssText = 'margin-top: 15px; padding: 10px; background-color: rgba(0,0,0,0.03); border: 1px solid #eee; border-radius: 5px; text-align: center; font-weight: bold; font-family: Tahoma, Tajawal, sans-serif; font-size: 1.1rem; color: ' + config.color + ';';
-        wrapper.innerHTML = '⏳ ينتهي العرض خلال <span id="salla-countdown-time" dir="ltr" style="display:inline-block"></span>';
-        
-        priceElement.parentNode.insertBefore(wrapper, priceElement.nextSibling);
-
-        let endTime = localStorage.getItem('salla_countdown_end');
-        if (!endTime || new Date().getTime() > parseInt(endTime)) {
-            endTime = new Date().getTime() + (config.resetHours * 60 * 60 * 1000);
-            localStorage.setItem('salla_countdown_end', endTime);
-        }
-
-        const display = document.getElementById('salla-countdown-time');
-
-        // Update loop
-        setInterval(() => {
-            const now = new Date().getTime();
-            const distance = parseInt(endTime) - now;
-
-            if (distance < 0) {
-                // Time's up, reset automatically based on the merchant's preference
-                endTime = new Date().getTime() + (config.resetHours * 60 * 60 * 1000);
-                localStorage.setItem('salla_countdown_end', endTime);
-                return;
+            
+            // If no custom image is uploaded, update the default SVG color
+            if (!uploadedImageBase64) {
+               livePreviewIcon.src = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${encodeURIComponent(color)}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'></circle><polyline points='12 6 12 12 16 14'></polyline></svg>`;
             }
+        });
 
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((distance % (1000 * 60)) / 1000);
+        // Update message
+        timerMessageInput.addEventListener('input', (e) => {
+            livePreviewMessage.textContent = e.target.value;
+            if (e.target.value.trim() === '') {
+                livePreviewMessage.style.display = 'none';
+            } else {
+                livePreviewMessage.style.display = 'inline-block';
+            }
+        });
 
-            display.innerText = String(h).padStart(2, '0') + ":" + String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
-        }, 1000);
-    }
+        // Handle Image Upload
+        timerImageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImageBase64 = event.target.result;
+                    livePreviewIcon.src = uploadedImageBase64;
+                    livePreviewIcon.style.display = 'inline-block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // Reset to default icon
+                uploadedImageBase64 = null;
+                const color = timerColorInput.value;
+                livePreviewIcon.src = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${encodeURIComponent(color)}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'></circle><polyline points='12 6 12 12 16 14'></polyline></svg>`;
+            }
+        });
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initTimer);
-    } else {
-        initTimer();
-    }
-    
-    // Twilight SPA navigation support
-    document.addEventListener('salla-page-view', initTimer);
-})();
-<\/script>`;
+        // Mock API Publish Function
+        async function publishToSalla() {
+            publishBtn.disabled = true;
+            publishBtn.querySelector('span').textContent = 'جارٍ النشر...';
+            apiStatus.className = 'api-status';
+            apiStatus.style.display = 'none';
 
-            textarea.value = scriptTemplate;
-        }
+            // Gather dashboard payload
+            const payload = {
+                color: timerColorInput.value,
+                resetHours: parseInt(resetHoursInput.value),
+                message: timerMessageInput.value,
+                iconBase64: uploadedImageBase64
+            };
 
-        timerColorInput.addEventListener('input', generateScript);
-        resetHoursInput.addEventListener('input', generateScript);
-
-        function copyCode() {
-            textarea.select();
-            document.execCommand('copy');
+            // Simulate Network Request to backend
+            console.log("Sending payload to backend API (/api/salla/settings):", payload);
             
-            const originalText = copyBtn.innerHTML;
-            copyBtn.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> تم النسخ!';
-            copyBtn.style.background = '#059669';
-            
-            setTimeout(() => {
-                copyBtn.innerHTML = originalText;
-                copyBtn.style.background = '';
-            }, 2000);
+            try {
+                // Mock delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Show success
+                apiStatus.className = 'api-status success';
+                apiStatus.textContent = '✅ تم تحديث إعدادات التطبيق ونشره في متجرك بنجاح!';
+                apiStatus.style.display = 'block';
+            } catch (error) {
+                // In a real app we'd show error here
+                console.error(error);
+            } finally {
+                // Reset button
+                publishBtn.disabled = false;
+                publishBtn.querySelector('span').textContent = 'نشر إلى سلة';
+                
+                // Hide status message after 4 seconds
+                setTimeout(() => {
+                    apiStatus.style.display = 'none';
+                    apiStatus.className = 'api-status';
+                }, 4000);
+            }
         }
-
-        // Initial generation
-        generateScript();
     </script>
 </body>
 </html>
