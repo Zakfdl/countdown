@@ -3,9 +3,74 @@
     "demo-merchant": {
       "settings": {
         "defaultLocale": "ar",
-        "timezone": "Asia/Riyadh"
+        "timezone": "Asia/Riyadh",
+        "analyticsHookUrl": ""
       },
-      "campaigns": []
+      "campaigns": [
+        {
+          "id": "M3AWZHkEtt",
+          "name": "عرض اليوم ينتهي خلال",
+          "enabled": true,
+          "locale": "ar",
+          "timezone": "Asia/Riyadh",
+          "layout": "top_bar",
+          "timer": {
+            "mode": "evergreen",
+            "recurrence": "none",
+            "durationHours": 2,
+            "startAt": null,
+            "endAt": null
+          },
+          "schedule": {
+            "startAt": null,
+            "endAt": null
+          },
+          "title": {
+            "ar": "عرض اليوم ينتهي خلال",
+            "en": "Today offer ends in"
+          },
+          "urgency": {
+            "enabled": true,
+            "text": {
+              "ar": "الكمية محدودة",
+              "en": ""
+            }
+          },
+          "cta": {
+            "enabled": true,
+            "label": {
+              "ar": "تسوق الآن",
+              "en": "Shop now"
+            },
+            "url": "/collections/all"
+          },
+          "style": {
+            "textColor": "#ffffff",
+            "backgroundColor": "#0f172a",
+            "accentColor": "#38bdf8",
+            "fontFamily": "Tajawal, sans-serif"
+          },
+          "displayRules": {
+            "pages": [
+              "all"
+            ],
+            "productIds": [],
+            "collectionIds": []
+          },
+          "expired": {
+            "behavior": "show_message",
+            "message": {
+              "ar": "انتهى العرض",
+              "en": ""
+            }
+          },
+          "createdAt": "2026-03-06T21:55:30.890Z",
+          "updatedAt": "2026-03-06T23:30:00.881Z",
+          "isActive": false
+        }
+      ],
+      "locale": "ar",
+      "timezone": "Asia/Riyadh"
     }
   }
 }

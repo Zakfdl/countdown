@@ -3,108 +3,163 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>لوحة تحكم Countdown Growth</title>
+  <title>لوحة تحكم عدّاد العروض</title>
   <link rel="stylesheet" href="/dashboard/assets/styles.css" />
 </head>
 <body>
-  <header class="top">
-    <h1>Countdown Growth لسلة</h1>
-    <p>أنشئ عدادك في دقائق — إعداد بسيط ومعاينة فورية.</p>
+  <header class="topbar">
+    <div>
+      <h1>عداد العروض لمتجرك</h1>
+      <p>اضبط رسالتك وألوانك، وشاهد النتيجة فورًا.</p>
+    </div>
   </header>
 
-  <main class="layout">
+  <main class="dashboard">
+    <!-- LEFT: SETTINGS -->
     <section class="panel settings-panel">
-      <div class="section-title">
-        <h2>ابدأ بقالب جاهز</h2>
-        <p>اختر قالبًا وسيتم تعبئة الحقول تلقائيًا.</p>
+      <div class="panel-head">
+        <h2>الإعدادات</h2>
+        <p>واجهة بسيطة وسريعة للتجار</p>
       </div>
-      <div id="presetGrid" class="preset-grid">
+
+      <div class="presets">
         <button type="button" class="preset-btn" data-preset="ramadan">رمضان</button>
         <button type="button" class="preset-btn" data-preset="white_friday">وايت فرايدي</button>
         <button type="button" class="preset-btn" data-preset="product_launch">إطلاق منتج</button>
         <button type="button" class="preset-btn" data-preset="flash_sale">Flash Sale</button>
-        <button type="button" class="preset-btn" data-preset="top_bar">Top Announcement Bar</button>
+        <button type="button" class="preset-btn" data-preset="announcement_bar">Announcement Bar</button>
       </div>
 
-      <form id="simpleForm" class="stack">
-        <section class="group">
+      <div id="statusBox" class="status hidden" aria-live="polite"></div>
+
+      <form id="campaignForm" class="form-stack">
+        <input type="hidden" name="id" />
+
+        <section class="card">
           <h3>ماذا سيظهر للعميل؟</h3>
-          <label>رسالة العد التنازلي (عربي)
+
+          <label>
+            رسالة العد التنازلي (عربي)
             <input name="titleAr" value="ينتهي العرض خلال" required />
           </label>
-          <label>نص الزر (عربي)
+
+          <label>
+            نص الزر (عربي)
             <input name="ctaAr" value="تسوق الآن" required />
           </label>
-          <label>رابط الزر
+
+          <label>
+            رابط الزر
             <input name="ctaUrl" value="/collections/all" required />
           </label>
         </section>
 
-        <section class="group">
+        <section class="card">
           <h3>متى ينتهي العرض؟</h3>
-          <label>اختر طريقة التوقيت
+
+          <label>
+            نوع المؤقت
             <select name="timerType" id="timerType">
-              <option value="hours">مدة بالساعات</option>
-              <option value="fixed">تاريخ ووقت محدد</option>
+              <option value="hours">بالساعات</option>
+              <option value="fixed">تاريخ محدد</option>
             </select>
           </label>
-          <label id="hoursField">عدد الساعات
-            <input type="number" name="durationHours" min="1" value="24" />
+
+          <label id="hoursField">
+            عدد الساعات
+            <input type="number" name="durationHours" min="1" max="720" value="24" />
           </label>
-          <label id="dateField" class="hidden">تاريخ الانتهاء
+
+          <label id="endDateField" class="hidden">
+            تاريخ الانتهاء
             <input type="datetime-local" name="endAt" />
           </label>
         </section>
 
-        <section class="group">
-          <h3>أين تريد أن يظهر العداد؟</h3>
+        <section class="card">
+          <h3>أين يظهر العداد؟</h3>
           <select name="layout" id="layoutSelect">
-            <option value="top_bar">شريط أعلى المتجر</option>
+            <option value="top_bar">أعلى المتجر</option>
             <option value="product_inline">داخل صفحة المنتج</option>
-            <option value="announcement">داخل بطاقة منتج / الصفحة الرئيسية</option>
+            <option value="announcement">بطاقة منتج / الصفحة الرئيسية</option>
           </select>
         </section>
 
-        <section class="group">
+        <section class="card">
           <h3>مظهر العداد</h3>
-          <label>لون الخلفية
-            <input type="color" name="bgColor" value="#0f172a" />
-          </label>
-          <label>لون النص
-            <input type="color" name="textColor" value="#ffffff" />
-          </label>
-          <label>لون الزر
-            <input type="color" name="accentColor" value="#f43f5e" />
-          </label>
+
+          <div class="color-fields">
+            <label class="color-item">
+              <span>لون الخلفية</span>
+              <div class="color-control">
+                <button type="button" class="color-square" data-color-square="bgColor" aria-label="اختيار لون الخلفية"></button>
+                <input type="color" class="native-color hidden" data-color-picker="bgColor" value="#0f172a" />
+                <input type="text" name="bgColor" data-color-hex="bgColor" value="#0f172a" maxlength="7" />
+              </div>
+            </label>
+
+            <label class="color-item">
+              <span>لون النص</span>
+              <div class="color-control">
+                <button type="button" class="color-square" data-color-square="textColor" aria-label="اختيار لون النص"></button>
+                <input type="color" class="native-color hidden" data-color-picker="textColor" value="#ffffff" />
+                <input type="text" name="textColor" data-color-hex="textColor" value="#ffffff" maxlength="7" />
+              </div>
+            </label>
+
+            <label class="color-item">
+              <span>لون الزر</span>
+              <div class="color-control">
+                <button type="button" class="color-square" data-color-square="accentColor" aria-label="اختيار لون الزر"></button>
+                <input type="color" class="native-color hidden" data-color-picker="accentColor" value="#f43f5e" />
+                <input type="text" name="accentColor" data-color-hex="accentColor" value="#f43f5e" maxlength="7" />
+              </div>
+            </label>
+          </div>
+
+          <div class="swatches">
+            <button type="button" data-swatch="#ef4444">Sale Red</button>
+            <button type="button" data-swatch="#16a34a">Brand Green</button>
+            <button type="button" data-swatch="#0f172a">Neutral Dark</button>
+            <button type="button" data-swatch="#2563eb">Blue</button>
+          </div>
         </section>
 
         <details class="advanced">
           <summary>خيارات متقدمة</summary>
           <div class="advanced-content">
-            <label class="toggle-row">
+            <label class="inline-toggle">
               <input type="checkbox" id="enableEnglish" />
               إضافة نسخة إنجليزية (اختياري)
             </label>
 
-            <div id="englishFields" class="english-fields hidden">
-              <label>رسالة العد (English)
+            <div id="englishFields" class="hidden">
+              <label>
+                رسالة العد (English)
                 <input name="titleEn" placeholder="Offer ends in" />
               </label>
-              <label>نص الزر (English)
+              <label>
+                نص الزر (English)
                 <input name="ctaEn" placeholder="Shop now" />
               </label>
-              <label>رسالة الانتهاء (English)
+              <label>
+                رسالة الانتهاء (English)
                 <input name="expiredEn" placeholder="Offer ended" />
               </label>
             </div>
 
-            <label>رسالة انتهاء العرض (عربي)
+            <label>
+              رسالة انتهاء العرض (عربي)
               <input name="expiredAr" value="انتهى العرض" />
             </label>
-            <label>بداية الجدولة (اختياري)
-              <input name="startAt" type="datetime-local" />
+
+            <label>
+              بداية الجدولة (اختياري)
+              <input type="datetime-local" name="startAt" />
             </label>
-            <label>التكرار
+
+            <label>
+              التكرار
               <select name="recurrence">
                 <option value="none">بدون تكرار</option>
                 <option value="daily">يومي</option>
@@ -112,14 +167,20 @@
                 <option value="monthly">شهري</option>
               </select>
             </label>
-            <label>الاستهداف (اختياري)
-              <input name="pages" value="all" placeholder="all,home,product" />
+
+            <label>
+              استهداف الصفحات
+              <input name="pages" value="all" placeholder="all,product,home" />
             </label>
-            <label>Webhook للتحليلات (اختياري)
-              <input name="analyticsHookUrl" placeholder="https://example.com/events" />
-            </label>
-            <label>خط مخصص (اختياري)
+
+            <label>
+              نوع الخط
               <input name="fontFamily" value="Tajawal, sans-serif" />
+            </label>
+
+            <label>
+              Webhook (اختياري)
+              <input name="analyticsHookUrl" placeholder="https://example.com/events" />
             </label>
           </div>
         </details>
@@ -129,12 +190,21 @@
           <button type="submit" id="publishBtn" class="btn primary">نشر في سلة</button>
         </div>
       </form>
+
+      <section class="campaigns-block">
+        <div class="panel-head compact">
+          <h2>الحملات</h2>
+          <p>إنشاء وتعديل وإدارة الحملات</p>
+        </div>
+        <div id="campaignList" class="campaign-list"></div>
+      </section>
     </section>
 
+    <!-- RIGHT: PREVIEW -->
     <section class="panel preview-panel">
-      <div class="section-title">
+      <div class="panel-head">
         <h2>المعاينة المباشرة</h2>
-        <p>أي تغيير في الحقول يظهر فورًا هنا.</p>
+        <p>كل تعديل ينعكس فورًا</p>
       </div>
 
       <div class="preview-toolbar">
@@ -142,30 +212,28 @@
           <button type="button" data-device="desktop" class="active">Desktop</button>
           <button type="button" data-device="mobile">Mobile</button>
         </div>
+
         <div class="switch-group" id="placementSwitch">
           <button type="button" data-placement="top" class="active">Top bar</button>
           <button type="button" data-placement="product">Product page</button>
           <button type="button" data-placement="card">Product card</button>
         </div>
-        <div class="switch-group" id="languageSwitch">
-          <button type="button" data-language="ar" class="active">العربية</button>
-          <button type="button" data-language="en">English</button>
+
+        <div class="switch-group" id="previewLangSwitch">
+          <button type="button" data-lang="ar" class="active">العربية</button>
+          <button type="button" data-lang="en">English</button>
         </div>
       </div>
 
       <div id="previewFrame" class="preview-frame desktop">
         <div class="store-shell">
           <div class="store-header"></div>
-          <div id="previewTop" class="placement top active"></div>
+
+          <div id="previewTop" class="placement active"></div>
+
           <div class="store-content">
-            <div id="previewProduct" class="placement product">
-              <h4>صفحة منتج</h4>
-              <div class="product-box">سماعات احترافية · 299 ر.س</div>
-            </div>
-            <div id="previewCard" class="placement card">
-              <h4>بطاقة منتج</h4>
-              <div class="product-box">منتج سريع البيع · 149 ر.س</div>
-            </div>
+            <div id="previewProduct" class="placement"></div>
+            <div id="previewCard" class="placement"></div>
           </div>
         </div>
       </div>

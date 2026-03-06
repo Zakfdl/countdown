@@ -3,9 +3,11 @@
 Production-ready countdown campaign app scaffold for Salla merchants with **Arabic-first localization** and optional English.
 
 ## 1) Current Audit Summary (from original project)
+
 The original project was a single `index.html` page with inline CSS/JS, a local preview timer, and a mock “publish to Salla” button. It had no backend, no OAuth, no merchant persistence, no campaign management, and no storefront widget delivery pipeline.
 
 ## 2) Target Architecture
+
 - **Backend**: Node.js + Express API for OAuth placeholders, merchant settings, campaign CRUD, and widget config resolution.
 - **Storage**: JSON file persistence (`data/store.json`) for portability; easy to replace with Postgres.
 - **Merchant Dashboard**: Arabic-first dashboard (RTL by default) with optional English content fields.
@@ -49,6 +51,7 @@ The original project was a single `index.html` page with inline CSS/JS, a local 
 ```
 
 ## 4) Local Setup
+
 1. `cp .env.example .env`
 2. `npm install`
 3. `npm run dev`
@@ -70,4 +73,5 @@ The original project was a single `index.html` page with inline CSS/JS, a local 
 `data-locale="en"` is optional. If English text is missing, Arabic is shown automatically.
 
 ## 6) Immediate Next Step
+
 Replace mock OAuth token exchange with real Salla OAuth endpoints and persist merchants in a managed database (PostgreSQL).
