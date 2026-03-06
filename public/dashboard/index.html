@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة تحكم Countdown Growth</title>
+  <link rel="stylesheet" href="/dashboard/assets/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Countdown Growth لسلة</h1>
+    <p>أنشئ حملات عدّ تنازلي ترفع التحويل — العربية افتراضيًا والإنجليزية اختيارية.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>إعدادات التاجر</h2>
+      <form id="merchantForm" class="grid two">
+        <label>لغة المتجر الأساسية
+          <select name="locale">
+            <option value="ar">العربية (افتراضي)</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+        <label>المنطقة الزمنية
+          <input name="timezone" value="Asia/Riyadh" />
+        </label>
+        <label>رابط Webhook للتحليلات (اختياري)
+          <input name="analyticsHookUrl" placeholder="https://example.com/events" />
+        </label>
+        <button type="submit">حفظ إعدادات التاجر</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>إنشاء / تعديل حملة</h2>
+      <form id="campaignForm" class="grid two">
+        <input type="hidden" name="id" />
+        <label>اسم الحملة<input name="name" required placeholder="مثال: عرض رمضان" /></label>
+        <label>قالب الحملة
+          <select name="template">
+            <option value="custom">مخصص</option>
+            <option value="ramadan">رمضان</option>
+            <option value="eid">العيد</option>
+            <option value="white_friday">الوايت فرايدي</option>
+            <option value="product_launch">إطلاق منتج</option>
+            <option value="clearance">تصفية مخزون</option>
+          </select>
+        </label>
+        <label>نمط الظهور
+          <select name="layout">
+            <option value="top_bar">شريط علوي ثابت</option>
+            <option value="product_inline">داخل صفحة المنتج</option>
+            <option value="homepage_banner">بانر الصفحة الرئيسية</option>
+            <option value="announcement">شريط إعلان</option>
+          </select>
+        </label>
+        <label>نوع المؤقت
+          <select name="timerMode">
+            <option value="fixed">تاريخ ثابت</option>
+            <option value="evergreen">متجدد</option>
+          </select>
+        </label>
+        <label>التكرار
+          <select name="recurrence">
+            <option value="none">بدون تكرار</option>
+            <option value="daily">يومي</option>
+            <option value="weekly">أسبوعي</option>
+            <option value="monthly">شهري</option>
+          </select>
+        </label>
+        <label>المدة (بالساعات)<input type="number" name="durationHours" value="24" min="1" /></label>
+        <label>بداية الحملة<input name="startAt" type="datetime-local" /></label>
+        <label>نهاية الحملة<input name="endAt" type="datetime-local" /></label>
+
+        <label>عنوان الحملة (عربي)<input name="titleAr" value="ينتهي العرض خلال" /></label>
+        <label>[اختياري] English title<input name="titleEn" placeholder="Offer ends in" /></label>
+
+        <label>رسالة الاستعجال (عربي)<input name="urgencyAr" value="الكمية محدودة" /></label>
+        <label>[اختياري] English urgency message<input name="urgencyEn" placeholder="Low stock available" /></label>
+
+        <label>نص الزر (عربي)<input name="ctaAr" value="تسوق الآن" /></label>
+        <label>[اختياري] English button text<input name="ctaEn" placeholder="Shop now" /></label>
+
+        <label>رابط الزر<input name="ctaUrl" value="/collections/all" /></label>
+
+        <label>رسالة انتهاء العرض (عربي)<input name="expiredAr" value="انتهى العرض" /></label>
+        <label>[اختياري] English expired message<input name="expiredEn" placeholder="Offer ended" /></label>
+
+        <label>لون النص<input type="color" name="textColor" value="#ffffff" /></label>
+        <label>لون الخلفية<input type="color" name="bgColor" value="#0f172a" /></label>
+        <label>لون التمييز<input type="color" name="accentColor" value="#f43f5e" /></label>
+        <label>الخط<input name="fontFamily" value="Tajawal, sans-serif" /></label>
+
+        <label>صفحات العرض (csv: all,home,product,collection)<input name="pages" value="all" /></label>
+        <label>معرّفات المنتجات (csv)<input name="productIds" /></label>
+        <label>معرّفات الأقسام (csv)<input name="collectionIds" /></label>
+
+        <label>سلوك الانتهاء
+          <select name="expiryBehavior">
+            <option value="hide">إخفاء المؤقت</option>
+            <option value="show_message">إظهار رسالة الانتهاء</option>
+            <option value="restart">إعادة التشغيل تلقائيًا</option>
+          </select>
+        </label>
+        <label><input type="checkbox" name="enabled" checked /> الحملة مفعلة</label>
+        <button type="submit">حفظ الحملة</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>الحملات</h2>
+      <div id="campaignList"></div>
+    </section>
+  </main>
+
+  <script type="module" src="/dashboard/assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "countdown-salla-app",
+  "version": "1.0.0",
+  "description": "Production-ready countdown campaign app scaffold for Salla merchants",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "check": "node --check src/server.js && node --check src/lib/store.js && node --check src/lib/i18n.js && node --check src/lib/validators.js && node --check src/services/campaign-engine.js && node --check src/routes/api.js && node --check public/dashboard/app.js && node --check public/widget/countdown-widget.js"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nanoid": "^5.0.7"
+  }
+}

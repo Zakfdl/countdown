@@ -1,0 +1,31 @@
+:root {
+  color-scheme: dark;
+  --bg: #020617;
+  --card: #0f172a;
+  --line: #334155;
+  --text: #e2e8f0;
+  --accent: #22c55e;
+}
+* { box-sizing: border-box; font-family: 'Tajawal', Inter, system-ui, sans-serif; }
+body { margin: 0; background: var(--bg); color: var(--text); direction: rtl; text-align: right; }
+header { padding: 24px; border-bottom: 1px solid var(--line); }
+main { padding: 24px; display: grid; gap: 16px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.grid { display: grid; gap: 12px; }
+.grid.two { grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+label { display: grid; gap: 6px; font-size: 12px; color: #cbd5e1; }
+input, select, button { border-radius: 8px; border: 1px solid var(--line); background: #1e293b; color: var(--text); padding: 10px; }
+input[type='datetime-local'], input[type='number'], input[type='url'] { direction: ltr; text-align: left; }
+button { background: var(--accent); color: #052e16; font-weight: 700; cursor: pointer; }
+#campaignList { display: grid; gap: 10px; }
+.item { padding: 12px; border: 1px solid var(--line); border-radius: 10px; display:flex; justify-content:space-between; align-items: center; gap: 8px; }
+.item-actions { display:flex; gap: 8px; }
+.small { font-size: 12px; opacity: .8; }
+
+body[data-ui-locale='en'] { direction: ltr; text-align: left; }
+body[data-ui-locale='en'] input,
+body[data-ui-locale='en'] select { text-align: left; }
+
+@media (max-width: 700px) {
+  .item { flex-direction: column; align-items: flex-start; }
+}
