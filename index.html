@@ -206,10 +206,46 @@
         }
         
         .timer-icon {
-            width: 24px;
-            height: 24px;
+            max-height: 28px;
+            max-width: 120px;
+            width: auto;
             object-fit: contain;
             display: inline-block;
+        }
+        
+        .upload-preview-container {
+            margin-top: 0.75rem;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .upload-preview-img {
+            max-height: 40px;
+            max-width: 150px;
+            object-fit: contain;
+            border-radius: 4px;
+            background: rgba(0,0,0,0.2);
+            padding: 4px;
+            border: 1px dashed var(--border-color);
+        }
+        
+        .remove-img-btn {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 0.35rem 0.75rem;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            width: auto;
+        }
+        
+        .remove-img-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            transform: none !important;
+            box-shadow: none !important;
         }
 
         .code-panel {
@@ -340,6 +376,10 @@
             <div class="form-group" style="margin-bottom: 2rem;">
                 <label for="timerImage">أيقونة العداد (اختياري)</label>
                 <input type="file" id="timerImage" accept="image/*">
+                <div class="upload-preview-container" id="uploadPreviewContainer">
+                    <img id="uploadPreviewImg" class="upload-preview-img" src="" alt="Thumbnail">
+                    <button class="remove-img-btn" id="removeImgBtn" type="button">إزالة</button>
+                </div>
             </div>
             
             <div class="instructions">
@@ -394,6 +434,18 @@
             }
         });
 
+        const uploadPreviewContainer = document.getElementById('uploadPreviewContainer');
+        const uploadPreviewImg = document.getElementById('uploadPreviewImg');
+        const removeImgBtn = document.getElementById('removeImgBtn');
+        
+        function resetToDefaultIcon() {
+            uploadedImageBase64 = null;
+            const color = timerColorInput.value;
+            livePreviewIcon.src = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${encodeURIComponent(color)}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'></circle><polyline points='12 6 12 12 16 14'></polyline></svg>`;
+            uploadPreviewContainer.style.display = 'none';
+            timerImageInput.value = ''; // clear input
+        }
+
         // Handle Image Upload
         timerImageInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -403,14 +455,20 @@
                     uploadedImageBase64 = event.target.result;
                     livePreviewIcon.src = uploadedImageBase64;
                     livePreviewIcon.style.display = 'inline-block';
+                    
+                    // Show thumbnail preview
+                    uploadPreviewImg.src = uploadedImageBase64;
+                    uploadPreviewContainer.style.display = 'flex';
                 };
                 reader.readAsDataURL(file);
             } else {
-                // Reset to default icon
-                uploadedImageBase64 = null;
-                const color = timerColorInput.value;
-                livePreviewIcon.src = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${encodeURIComponent(color)}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'></circle><polyline points='12 6 12 12 16 14'></polyline></svg>`;
+                resetToDefaultIcon();
             }
+        });
+
+        // Handle Image Removal
+        removeImgBtn.addEventListener('click', () => {
+            resetToDefaultIcon();
         });
 
         // Mock API Publish Function
